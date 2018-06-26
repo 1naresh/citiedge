@@ -5,7 +5,8 @@ export default class ProductsComponent extends React.Component{
     state={
         isKitchen:false,
         isWordrobe:false,
-        isFullInterior:false
+        isFullInterior:false,
+        notSelectedError:false
     }
     componentDidMount(){
         // console.log(this.props.foo)
@@ -25,22 +26,26 @@ export default class ProductsComponent extends React.Component{
     }
     submit = e =>{
         let { isKitchen,isWordrobe,isFullInterior } = this.state
-        fetch("/users/create",{
-            method:"POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              },
-            body:JSON.stringify({isKitchen,isWordrobe,isFullInterior})
-        }).then(res=>res.json())
-        .then(res=> {
-            if(res.success){
-                this.props.history.push("kitchen/"+ res.data._id )
-            }
-        })
+        if( isKitchen || isWordrobe || isFullInterior ){
+            fetch("/users/create",{
+                method:"POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json', 
+                  },
+                body:JSON.stringify({isKitchen,isWordrobe,isFullInterior})
+            }).then(res=>res.json())
+            .then(res=> {
+                if(res.success){
+                    this.props.history.push("/kitchen/"+ res.data._id )
+                }
+            })
+        }else{
+            this.setState({notSelectedError:true})
+        }
     }
     render() {
-        let { isKitchen,isWordrobe,isFullInterior } = this.state
+        let { isKitchen,isWordrobe,isFullInterior,notSelectedError } = this.state
         return (
             <div>
                 <h3>i need following interior products</h3>
@@ -69,6 +74,11 @@ export default class ProductsComponent extends React.Component{
                             Full Interiors
                         </div>    
                         <div>
+                            { notSelectedError &&
+                              <span>please select any product</span>  
+                            }
+                        </div>    
+                        <div>
                             <Button onClick={this.submit} >
                                 Next
                             </Button>    
@@ -89,24 +99,36 @@ export default class ProductsComponent extends React.Component{
                             <tbody>
                                 <tr>
                                 <td>Kitchen</td>
-                                {
-                                    isKitchen &&
-                                    <td>Selected</td>
-                                }
+                                <td>
+                                    {
+                                        isKitchen &&
+                                        <span>
+                                            Selected
+                                        </span>    
+                                    }
+                                </td>    
                                 </tr>
                                 <tr>
                                 <td>Wordrobe</td>
-                                {
-                                    isWordrobe &&
-                                    <td>Selected</td>
-                                }
+                                <td>
+                                    {
+                                        isWordrobe &&
+                                        <span>
+                                            Selected
+                                        </span>    
+                                    }
+                                </td>
                                 </tr>
                                 <tr>
                                 <td>Full Interiors</td>
-                                {
-                                    isFullInterior &&
-                                    <td>Selected</td>
-                                }
+                                <td>
+                                    {
+                                        isFullInterior &&
+                                        <span>
+                                            Selected
+                                        </span>    
+                                    }
+                                </td>
                                 </tr>
                             </tbody>
                             </Table>
