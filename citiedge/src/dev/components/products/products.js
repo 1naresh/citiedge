@@ -7,7 +7,7 @@ export default class ProductsComponent extends React.Component{
         isWordrobe:false,
         isFullInterior:false,
         notSelectedError:false
-    }
+    } 
     componentDidMount(){
         // console.log(this.props.foo)
     }
@@ -34,10 +34,20 @@ export default class ProductsComponent extends React.Component{
                     'Content-Type': 'application/json', 
                   },
                 body:JSON.stringify({isKitchen,isWordrobe,isFullInterior})
-            }).then(res=>res.json())
+            }).then(res=>res.json()) 
             .then(res=> {
                 if(res.success){
-                    this.props.history.push("/kitchen/"+ res.data._id )
+                    if(isKitchen){
+                        this.props.history.push("/kitchen/"+ res.data._id )
+                    }else{
+                        if(isWordrobe){
+                            this.props.history.push("/wordrobes/"+ res.data._id )
+                        }else{
+                            if(isFullInterior){
+                                this.props.history.push("/fullInteriors/"+ res.data._id )   
+                            }
+                        }
+                    }
                 }
             })
         }else{

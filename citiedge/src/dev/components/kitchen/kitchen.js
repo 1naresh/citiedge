@@ -30,7 +30,7 @@ export default class KitchenComponent extends React.Component{
             }).then(res=>res.json())
             .then(res=> {
                 if(res.success){
-                    this.props.history.push('/uShape/'+res.user._id)
+                    this.props.history.push('/'+kitchenShape+'/'+res.user._id)
                 }
             })
         }else{

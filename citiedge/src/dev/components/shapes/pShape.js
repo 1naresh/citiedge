@@ -2,11 +2,10 @@ import React from 'react';
 import { Grid,Row,Col,Checkbox,Table,Button } from 'react-bootstrap';
 
 
-export default class UShapeComponent extends React.Component{
+export default class PShapeComponent extends React.Component{
     state={
         kitchenWallA:0,
         kitchenWallB:0,
-        kitchenWallC:0,
         notSelectedError:false
     }
     componentDidMount(){
@@ -18,12 +17,11 @@ export default class UShapeComponent extends React.Component{
         })
     }
     submit = e =>{
-        let { kitchenWallA,kitchenWallB,kitchenWallC } = this.state
+        let { kitchenWallA,kitchenWallB } = this.state
         kitchenWallA = parseInt(kitchenWallA)
         kitchenWallB = parseInt(kitchenWallB)
-        kitchenWallC = parseInt(kitchenWallC)
-        let totalKitchenlength = kitchenWallA+kitchenWallB+kitchenWallC
-        if( !kitchenWallA || !kitchenWallB || !kitchenWallC ){
+        let totalKitchenlength = kitchenWallA+kitchenWallB
+        if( !kitchenWallA || !kitchenWallB ){
             this.setState({notSelectedError:true})
         }else{
             this.setState({notSelectedError:false})
@@ -33,7 +31,7 @@ export default class UShapeComponent extends React.Component{
                     'Accept': 'application/json',
                     'Content-Type': 'application/json', 
                   },
-                body:JSON.stringify({ kitchenWallA,kitchenWallB,kitchenWallC,totalKitchenlength })
+                body:JSON.stringify({ kitchenWallA,kitchenWallB,totalKitchenlength })
             }).then(res=>res.json())
             .then( res => {
                 if(res.success){
@@ -53,13 +51,12 @@ export default class UShapeComponent extends React.Component{
         }
     }
     render(){
-        let { kitchenWallA,kitchenWallB,kitchenWallC,notSelectedError } = this.state
+        let { kitchenWallA,kitchenWallB,notSelectedError } = this.state
         kitchenWallA = parseInt(kitchenWallA)
         kitchenWallB = parseInt(kitchenWallB)
-        kitchenWallC = parseInt(kitchenWallC)
         return(
             <div>
-                <h3> select sizes </h3>
+                <h3> select sizes pshape </h3>
                 <Grid>
                     <Row className="show-grid">
                     <Col sm={6} md={4}>
@@ -83,16 +80,6 @@ export default class UShapeComponent extends React.Component{
                                 max={10}
                                 />
                         </div>
-                        <div>
-                            <input 
-                                type="range"
-                                onChange={this.handleChange}
-                                name="kitchenWallC"
-                                value={kitchenWallC}
-                                min={0}
-                                max={10}
-                                />
-                        </div>   
                         <div>
                             {
                                 notSelectedError &&
@@ -129,8 +116,7 @@ export default class UShapeComponent extends React.Component{
                                 <td>
                                     { 
                                       kitchenWallA +
-                                      kitchenWallB +
-                                      kitchenWallC
+                                      kitchenWallB 
                                     } 
                                 </td>    
                                 </tr>

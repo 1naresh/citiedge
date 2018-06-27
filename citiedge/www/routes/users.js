@@ -19,6 +19,12 @@ router.post('/update/:id',(req,res)=>{
         res.json({success:true,user})
     })
 })
+router.get('/getOtp/:id',(req,res)=>{
+    user.findById(req.params.id,(err,data)=>{
+        res.json(data.phone)
+    })
+    
+})
 router.get('/find',(req,res)=>{
     user.find((err,data)=>{
         res.json(data)

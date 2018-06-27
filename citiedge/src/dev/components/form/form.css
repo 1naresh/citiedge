@@ -1,0 +1,7 @@
+.citi-form{
+    width: 50%;
+    padding: 10px;
+}
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

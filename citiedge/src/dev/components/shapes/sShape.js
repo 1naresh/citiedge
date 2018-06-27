@@ -2,11 +2,9 @@ import React from 'react';
 import { Grid,Row,Col,Checkbox,Table,Button } from 'react-bootstrap';
 
 
-export default class UShapeComponent extends React.Component{
+export default class SShapeComponent extends React.Component{
     state={
         kitchenWallA:0,
-        kitchenWallB:0,
-        kitchenWallC:0,
         notSelectedError:false
     }
     componentDidMount(){
@@ -18,12 +16,10 @@ export default class UShapeComponent extends React.Component{
         })
     }
     submit = e =>{
-        let { kitchenWallA,kitchenWallB,kitchenWallC } = this.state
+        let { kitchenWallA } = this.state
         kitchenWallA = parseInt(kitchenWallA)
-        kitchenWallB = parseInt(kitchenWallB)
-        kitchenWallC = parseInt(kitchenWallC)
-        let totalKitchenlength = kitchenWallA+kitchenWallB+kitchenWallC
-        if( !kitchenWallA || !kitchenWallB || !kitchenWallC ){
+        let totalKitchenlength = kitchenWallA
+        if( !kitchenWallA ){
             this.setState({notSelectedError:true})
         }else{
             this.setState({notSelectedError:false})
@@ -33,7 +29,7 @@ export default class UShapeComponent extends React.Component{
                     'Accept': 'application/json',
                     'Content-Type': 'application/json', 
                   },
-                body:JSON.stringify({ kitchenWallA,kitchenWallB,kitchenWallC,totalKitchenlength })
+                body:JSON.stringify({ kitchenWallA,totalKitchenlength })
             }).then(res=>res.json())
             .then( res => {
                 if(res.success){
@@ -53,10 +49,8 @@ export default class UShapeComponent extends React.Component{
         }
     }
     render(){
-        let { kitchenWallA,kitchenWallB,kitchenWallC,notSelectedError } = this.state
+        let { kitchenWallA,notSelectedError } = this.state
         kitchenWallA = parseInt(kitchenWallA)
-        kitchenWallB = parseInt(kitchenWallB)
-        kitchenWallC = parseInt(kitchenWallC)
         return(
             <div>
                 <h3> select sizes </h3>
@@ -73,26 +67,6 @@ export default class UShapeComponent extends React.Component{
                                 value={kitchenWallA}
                                 />
                         </div>
-                        <div>
-                            <input 
-                                type="range"
-                                onChange={this.handleChange}
-                                name="kitchenWallB"
-                                value={kitchenWallB}
-                                min={0}
-                                max={10}
-                                />
-                        </div>
-                        <div>
-                            <input 
-                                type="range"
-                                onChange={this.handleChange}
-                                name="kitchenWallC"
-                                value={kitchenWallC}
-                                min={0}
-                                max={10}
-                                />
-                        </div>   
                         <div>
                             {
                                 notSelectedError &&
@@ -128,9 +102,7 @@ export default class UShapeComponent extends React.Component{
                                 <td>U Shape</td>    
                                 <td>
                                     { 
-                                      kitchenWallA +
-                                      kitchenWallB +
-                                      kitchenWallC
+                                      kitchenWallA 
                                     } 
                                 </td>    
                                 </tr>
